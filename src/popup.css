@@ -152,8 +152,13 @@ footer {
   cursor: pointer;
 }
 
-#refresh:hover {
+#refresh:hover:not(:disabled) {
   background: var(--amber-hover);
+}
+
+#refresh:disabled {
+  opacity: 0.5;
+  cursor: default;
 }
 
 #last-checked {

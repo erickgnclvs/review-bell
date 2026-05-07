@@ -14,10 +14,15 @@ refresh.addEventListener('click', async () => {
     chrome.runtime.openOptionsPage();
     return;
   }
+  refresh.disabled = true;
   summary.textContent = 'Checking GitHub…';
-  const response = await chrome.runtime.sendMessage({ type: 'CHECK_NOW' });
-  if (!response?.ok) summary.textContent = response?.error || 'Check failed.';
-  await render();
+  try {
+    const response = await chrome.runtime.sendMessage({ type: 'CHECK_NOW' });
+    if (!response?.ok) summary.textContent = response?.error || 'Check failed.';
+    await render();
+  } finally {
+    refresh.disabled = false;
+  }
 });
 
 render();
