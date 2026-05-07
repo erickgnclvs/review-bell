@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Review Bell",
   "version": "0.1.0",
-  "description": "Reminds you about GitHub pull requests that need your review.",
+  "description": "Never miss a GitHub PR review again.",
   "permissions": ["storage", "alarms", "notifications"],
   "host_permissions": ["https://api.github.com/*"],
   "background": {

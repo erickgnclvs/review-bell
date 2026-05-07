@@ -1,5 +1,7 @@
 # Review Bell
 
+Never miss a GitHub PR review again.
+
 Review Bell is a Chrome extension that reminds you about GitHub pull requests that need your review.
 
 It tracks manually selected repositories, checks open non-draft PRs every 30 minutes, and shows a badge count for PRs you have not reviewed or that received new commits after your latest review.
