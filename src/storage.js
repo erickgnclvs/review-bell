@@ -8,7 +8,7 @@ const DEFAULT_STATE = {
 };
 
 export async function getState() {
-  const stored = await chrome.storage.local.get(DEFAULT_STATE);
+  const stored = await chrome.storage.local.get(null);
   return { ...DEFAULT_STATE, ...stored };
 }
 
