@@ -1,4 +1,5 @@
 import { getViewerLogin, listOpenPullRequests, listPullRequestCommits, listPullRequestReviews } from './github.js';
+import { sendReviewNotification } from './notifications.js';
 import { classifyPullRequest, notificationKey } from './reviewRules.js';
 import { getState, saveCheckResult } from './storage.js';
 
@@ -66,9 +67,13 @@ async function checkNow() {
 
     const currentKeys = attentionItems.map(notificationKey);
     const newKeys = currentKeys.filter((key) => !state.notifiedKeys.includes(key));
-    if (newKeys.length > 0) await notify(attentionItems.filter((item) => newKeys.includes(notificationKey(item))));
 
     await saveCheckResult({ attentionItems, notifiedKeys: currentKeys, lastError: null });
+
+    if (newKeys.length > 0) {
+      const newItems = attentionItems.filter((item) => newKeys.includes(notificationKey(item)));
+      notify(newItems).catch((error) => console.warn('Review Bell notification failed', error));
+    }
   } catch (error) {
     await saveCheckResult({ attentionItems: state.attentionItems, notifiedKeys: state.notifiedKeys, lastError: error.message });
     throw error;
@@ -80,12 +85,5 @@ async function updateBadge(items) {
 }
 
 async function notify(newItems) {
-  const title = newItems.length === 1 ? '1 PR needs review' : `${newItems.length} PRs need review`;
-  const message = newItems.slice(0, 3).map((item) => `${item.repo}#${item.number}: ${item.title}`).join('\n');
-  await chrome.notifications.create(`review-bell-${Date.now()}`, {
-    type: 'basic',
-    iconUrl: 'icons/icon-128.png',
-    title,
-    message: message || 'Open Review Bell to see PRs.'
-  });
+  await sendReviewNotification(chrome, newItems);
 }
