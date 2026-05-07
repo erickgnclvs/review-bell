@@ -59,6 +59,16 @@ button:disabled {
   cursor: default;
 }
 
+.hint {
+  color: #6b7280;
+  font-size: 13px;
+  margin: 6px 0 10px;
+}
+
+.hint a {
+  color: #2563eb;
+}
+
 #load-repos {
   margin-top: 4px;
 }
