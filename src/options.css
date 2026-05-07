@@ -1,86 +1,165 @@
+:root {
+  --amber: #d97706;
+  --amber-hover: #b45309;
+  --text: #111827;
+  --muted: #6b7280;
+  --border: #e5e7eb;
+  --bg: #f9fafb;
+  --card-bg: #fff;
+}
+
+* {
+  box-sizing: border-box;
+}
+
 body {
-  color: #111827;
+  color: var(--text);
   font-family: system-ui, sans-serif;
   margin: 0;
+  background: var(--bg);
+  font-size: 14px;
 }
+
+/* ── Header ── */
+
+header {
+  background: #fff;
+  border-bottom: 1px solid var(--border);
+  padding: 14px 24px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.brand-name {
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+/* ── Layout ── */
 
 main {
   max-width: 560px;
   padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
-h1 {
-  margin: 0 0 20px;
+/* ── Cards ── */
+
+.card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 20px;
 }
 
-section {
-  margin-bottom: 20px;
+.card h2 {
+  font-size: 14px;
+  font-weight: 700;
+  margin: 0 0 14px;
+  color: var(--text);
 }
 
-label {
+/* ── Form fields ── */
+
+.field-label {
   display: block;
+  font-size: 13px;
   font-weight: 600;
+  color: var(--muted);
   margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
 }
 
 input[type="password"],
 input[type="search"] {
-  box-sizing: border-box;
   display: block;
-  font: inherit;
-  padding: 8px 10px;
   width: 100%;
-  border: 1px solid #d1d5db;
-  border-radius: 6px;
-  margin-bottom: 8px;
+  font: inherit;
+  font-size: 14px;
+  padding: 9px 11px;
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  background: #fff;
+  color: var(--text);
+  margin-bottom: 10px;
 }
 
 input[type="password"]:focus,
 input[type="search"]:focus {
-  border-color: #6366f1;
-  outline: none;
+  border-color: var(--amber);
+  outline: 2px solid color-mix(in srgb, var(--amber) 20%, transparent);
 }
 
-button {
+.hint {
+  font-size: 12px;
+  color: var(--muted);
+  margin: 0 0 14px;
+  line-height: 1.5;
+}
+
+.hint a {
+  color: var(--amber);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.hint a:hover {
+  text-decoration: underline;
+}
+
+code {
+  font-family: ui-monospace, monospace;
+  font-size: 11px;
+  background: #f3f4f6;
+  padding: 1px 5px;
+  border-radius: 4px;
+}
+
+/* ── Buttons ── */
+
+.btn-primary {
   font: inherit;
-  padding: 8px 14px;
-  border: 1px solid #d1d5db;
-  border-radius: 6px;
-  background: #f9fafb;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 8px 16px;
+  background: var(--amber);
+  color: #fff;
+  border: none;
+  border-radius: 7px;
   cursor: pointer;
 }
 
-button:hover:not(:disabled) {
-  background: #f3f4f6;
+.btn-primary:hover:not(:disabled) {
+  background: var(--amber-hover);
 }
 
-button:disabled {
+.btn-primary:disabled {
   opacity: 0.5;
   cursor: default;
 }
 
-.hint {
-  color: #6b7280;
-  font-size: 13px;
-  margin: 6px 0 10px;
-}
+/* ── Repo list ── */
 
-.hint a {
-  color: #2563eb;
-}
-
-#load-repos {
-  margin-top: 4px;
+#search {
+  margin-bottom: 10px;
 }
 
 #repo-list {
   list-style: none;
   margin: 0;
   padding: 0;
-  max-height: 300px;
+  max-height: 280px;
   overflow-y: auto;
-  border: 1px solid #e5e7eb;
-  border-radius: 6px;
+  border: 1px solid var(--border);
+  border-radius: 7px;
 }
 
 #repo-list li {
@@ -94,26 +173,36 @@ button:disabled {
 #repo-list label {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 8px 10px;
+  gap: 9px;
+  padding: 9px 12px;
   font-weight: 400;
   cursor: pointer;
+  font-size: 13px;
 }
 
 #repo-list label:hover {
-  background: #f9fafb;
+  background: var(--bg);
 }
 
-#save {
-  margin-top: 4px;
+#repo-list input[type="checkbox"] {
+  width: auto;
+  margin: 0;
+  accent-color: var(--amber);
+}
+
+/* ── Actions ── */
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
 }
 
 #status {
-  min-height: 1.5em;
-  margin-top: 8px;
-  font-size: 14px;
+  font-size: 13px;
+  min-height: 1.4em;
 }
 
 #status[data-type="success"] { color: #047857; }
 #status[data-type="error"]   { color: #dc2626; }
-#status[data-type="info"]    { color: #6b7280; }
+#status[data-type="info"]    { color: var(--muted); }

@@ -7,24 +7,31 @@
     <link rel="stylesheet" href="options.css">
   </head>
   <body>
+    <header>
+      <div class="brand">
+        <img src="../icons/icon-32.png" alt="" width="20" height="20">
+        <span class="brand-name">Review Bell</span>
+      </div>
+    </header>
     <main>
-      <h1>Review Bell</h1>
-
-      <section id="token-section">
-        <label for="token">GitHub token</label>
+      <section class="card" id="token-section">
+        <h2>GitHub token</h2>
+        <label for="token" class="field-label">Personal access token</label>
         <input id="token" type="password" autocomplete="off" placeholder="github_pat_...">
-        <p class="hint">Need a token? <a href="https://github.com/settings/tokens/new?scopes=repo&description=Review+Bell" target="_blank" rel="noreferrer">Create a classic PAT</a> on GitHub with the <code>repo</code> scope.</p>
-        <button id="load-repos" type="button">Load repositories</button>
+        <p class="hint">Need a token? <a href="https://github.com/settings/tokens/new?scopes=repo&description=Review+Bell" target="_blank" rel="noreferrer">Create a classic PAT</a> with the <code>repo</code> scope.</p>
+        <button id="load-repos" class="btn-primary" type="button">Load repositories</button>
       </section>
 
-      <section id="repo-section" hidden>
-        <label for="search">Repositories</label>
-        <input id="search" type="search" placeholder="Search…">
+      <section class="card" id="repo-section" hidden>
+        <h2>Repositories</h2>
+        <input id="search" type="search" placeholder="Search repositories…">
         <ul id="repo-list"></ul>
       </section>
 
-      <button id="save" type="button">Save</button>
-      <p id="status" role="status"></p>
+      <div class="actions">
+        <button id="save" class="btn-primary" type="button">Save settings</button>
+        <p id="status" role="status"></p>
+      </div>
     </main>
     <script type="module" src="options.js"></script>
   </body>
