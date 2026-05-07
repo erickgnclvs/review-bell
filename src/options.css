@@ -1,0 +1,45 @@
+body {
+  color: #111827;
+  font-family: system-ui, sans-serif;
+  margin: 0;
+}
+
+main {
+  max-width: 720px;
+  padding: 24px;
+}
+
+label {
+  display: block;
+  font-weight: 600;
+  margin: 16px 0 8px;
+}
+
+input {
+  box-sizing: border-box;
+  display: block;
+  font: inherit;
+  margin-top: 6px;
+  padding: 8px;
+  width: 100%;
+}
+
+button {
+  font: inherit;
+  margin: 8px 8px 8px 0;
+  padding: 8px 12px;
+}
+
+li {
+  align-items: center;
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+  max-width: 420px;
+  padding: 6px 0;
+}
+
+#status {
+  color: #047857;
+  min-height: 1.5em;
+}

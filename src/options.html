@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Review Bell Options</title>
+    <link rel="stylesheet" href="options.css">
+  </head>
+  <body>
+    <main>
+      <h1>Review Bell</h1>
+      <label>
+        GitHub token
+        <input id="token" type="password" autocomplete="off" placeholder="github_pat_...">
+      </label>
+      <label>
+        Add repository
+        <input id="repo" type="text" placeholder="owner/repo">
+      </label>
+      <button id="addRepo" type="button">Add repo</button>
+      <ul id="repos"></ul>
+      <button id="save" type="button">Save</button>
+      <p id="status" role="status"></p>
+    </main>
+    <script type="module" src="options.js"></script>
+  </body>
+</html>
