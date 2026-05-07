@@ -5,41 +5,105 @@ body {
 }
 
 main {
-  max-width: 720px;
+  max-width: 560px;
   padding: 24px;
+}
+
+h1 {
+  margin: 0 0 20px;
+}
+
+section {
+  margin-bottom: 20px;
 }
 
 label {
   display: block;
   font-weight: 600;
-  margin: 16px 0 8px;
+  margin-bottom: 6px;
 }
 
-input {
+input[type="password"],
+input[type="search"] {
   box-sizing: border-box;
   display: block;
   font: inherit;
-  margin-top: 6px;
-  padding: 8px;
+  padding: 8px 10px;
   width: 100%;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  margin-bottom: 8px;
+}
+
+input[type="password"]:focus,
+input[type="search"]:focus {
+  border-color: #6366f1;
+  outline: none;
 }
 
 button {
   font: inherit;
-  margin: 8px 8px 8px 0;
-  padding: 8px 12px;
+  padding: 8px 14px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  background: #f9fafb;
+  cursor: pointer;
 }
 
-li {
-  align-items: center;
+button:hover:not(:disabled) {
+  background: #f3f4f6;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+#load-repos {
+  margin-top: 4px;
+}
+
+#repo-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-height: 300px;
+  overflow-y: auto;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+}
+
+#repo-list li {
+  border-bottom: 1px solid #f3f4f6;
+}
+
+#repo-list li:last-child {
+  border-bottom: none;
+}
+
+#repo-list label {
   display: flex;
-  gap: 12px;
-  justify-content: space-between;
-  max-width: 420px;
-  padding: 6px 0;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  font-weight: 400;
+  cursor: pointer;
+}
+
+#repo-list label:hover {
+  background: #f9fafb;
+}
+
+#save {
+  margin-top: 4px;
 }
 
 #status {
-  color: #047857;
   min-height: 1.5em;
+  margin-top: 8px;
+  font-size: 14px;
 }
+
+#status[data-type="success"] { color: #047857; }
+#status[data-type="error"]   { color: #dc2626; }
+#status[data-type="info"]    { color: #6b7280; }

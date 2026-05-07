@@ -9,16 +9,19 @@
   <body>
     <main>
       <h1>Review Bell</h1>
-      <label>
-        GitHub token
+
+      <section id="token-section">
+        <label for="token">GitHub token</label>
         <input id="token" type="password" autocomplete="off" placeholder="github_pat_...">
-      </label>
-      <label>
-        Add repository
-        <input id="repo" type="text" placeholder="owner/repo">
-      </label>
-      <button id="addRepo" type="button">Add repo</button>
-      <ul id="repos"></ul>
+        <button id="load-repos" type="button">Load repositories</button>
+      </section>
+
+      <section id="repo-section" hidden>
+        <label for="search">Repositories</label>
+        <input id="search" type="search" placeholder="Search…">
+        <ul id="repo-list"></ul>
+      </section>
+
       <button id="save" type="button">Save</button>
       <p id="status" role="status"></p>
     </main>

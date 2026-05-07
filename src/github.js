@@ -1,3 +1,7 @@
+export async function listAccessibleRepos(token) {
+  return githubFetchAll('/user/repos?per_page=100&sort=updated&affiliation=owner,collaborator,organization_member', token);
+}
+
 export async function getViewerLogin(token) {
   const user = await githubFetch('/user', token);
   return user.login;
