@@ -43,7 +43,14 @@ async function render() {
   refresh.textContent = 'Check now';
 
   if (state.lastError) {
-    summary.textContent = `Last check failed: ${state.lastError}`;
+    summary.replaceChildren(
+      document.createTextNode(`Last check failed: ${state.lastError} — `),
+      Object.assign(document.createElement('a'), {
+        href: '#',
+        textContent: 'open settings',
+        onclick: (e) => { e.preventDefault(); chrome.runtime.openOptionsPage(); }
+      })
+    );
   } else if (items.length === 0) {
     summary.textContent = 'No PRs need review.';
   } else {

@@ -70,6 +70,16 @@ header {
   background: var(--bg-hover);
 }
 
+#summary a {
+  color: var(--amber);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+#summary a:hover {
+  text-decoration: underline;
+}
+
 /* ── PR list ── */
 
 ul {
