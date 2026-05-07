@@ -56,6 +56,20 @@ describe('classifyPullRequest', () => {
 
     expect(result.reason).toBe('updated_after_review');
   });
+
+  it('requires review when any unordered commit is newer than viewer review', () => {
+    const result = classifyPullRequest({
+      pr,
+      reviews: [{ user: { login: 'me' }, state: 'APPROVED', submitted_at: '2026-05-01T09:00:00Z' }],
+      commits: [
+        { commit: { committer: { date: '2026-05-01T10:00:00Z' } } },
+        { commit: { committer: { date: '2026-05-01T08:00:00Z' } } }
+      ],
+      viewerLogin: 'me'
+    });
+
+    expect(result.reason).toBe('updated_after_review');
+  });
 });
 
 describe('notificationKey', () => {

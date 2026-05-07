@@ -41,6 +41,10 @@ function toAttentionItem(pr, reason) {
 }
 
 function getLatestCommitDate(commits) {
-  const latestCommit = commits.at(-1);
-  return latestCommit?.commit?.committer?.date ?? latestCommit?.commit?.author?.date ?? null;
+  const commitDates = commits
+    .map((commit) => commit.commit?.committer?.date ?? commit.commit?.author?.date)
+    .filter(Boolean)
+    .sort((a, b) => new Date(b) - new Date(a));
+
+  return commitDates[0] ?? null;
 }
