@@ -1,0 +1,14 @@
+{
+  "name": "review-bell",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "vitest run",
+    "package": "node scripts/package-extension.mjs"
+  },
+  "devDependencies": {
+    "vitest": "latest",
+    "archiver": "latest"
+  }
+}
