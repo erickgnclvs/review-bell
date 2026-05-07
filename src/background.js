@@ -3,27 +3,38 @@ import { classifyPullRequest, notificationKey } from './reviewRules.js';
 import { getState, saveCheckResult } from './storage.js';
 
 const ALARM_NAME = 'review-bell-check';
+let checkPromise = null;
 
 chrome.runtime.onInstalled.addListener(() => {
   chrome.alarms.create(ALARM_NAME, { periodInMinutes: 30 });
   chrome.action.setBadgeBackgroundColor({ color: '#d97706' });
-  checkNow();
+  runCheck().catch((error) => console.error('Review Bell check failed', error));
 });
 
 chrome.runtime.onStartup.addListener(() => {
   chrome.alarms.create(ALARM_NAME, { periodInMinutes: 30 });
-  checkNow();
+  runCheck().catch((error) => console.error('Review Bell check failed', error));
 });
 
 chrome.alarms.onAlarm.addListener((alarm) => {
-  if (alarm.name === ALARM_NAME) checkNow();
+  if (alarm.name === ALARM_NAME) runCheck().catch((error) => console.error('Review Bell check failed', error));
 });
 
 chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
   if (message?.type !== 'CHECK_NOW') return false;
-  checkNow().then(() => sendResponse({ ok: true })).catch((error) => sendResponse({ ok: false, error: error.message }));
+  runCheck().then(() => sendResponse({ ok: true })).catch((error) => sendResponse({ ok: false, error: error.message }));
   return true;
 });
+
+function runCheck() {
+  if (checkPromise) return checkPromise;
+
+  checkPromise = checkNow().finally(() => {
+    checkPromise = null;
+  });
+
+  return checkPromise;
+}
 
 async function checkNow() {
   const state = await getState();
