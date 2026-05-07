@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Privacy Policy — Review Bell</title>
+    <style>
+      :root {
+        --amber: #d97706;
+        --text: #111827;
+        --muted: #6b7280;
+        --border: #e5e7eb;
+        --bg: #f9fafb;
+      }
+
+      * { box-sizing: border-box; }
+
+      body {
+        font-family: system-ui, sans-serif;
+        font-size: 16px;
+        line-height: 1.7;
+        color: var(--text);
+        background: var(--bg);
+        margin: 0;
+        padding: 0;
+      }
+
+      header {
+        background: #fff;
+        border-bottom: 1px solid var(--border);
+        padding: 16px 24px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .bell {
+        font-size: 22px;
+        line-height: 1;
+      }
+
+      header span {
+        font-size: 16px;
+        font-weight: 700;
+        letter-spacing: -0.01em;
+      }
+
+      main {
+        max-width: 680px;
+        margin: 0 auto;
+        padding: 48px 24px 80px;
+      }
+
+      h1 {
+        font-size: 28px;
+        font-weight: 800;
+        letter-spacing: -0.02em;
+        margin: 0 0 6px;
+        color: var(--text);
+      }
+
+      .updated {
+        font-size: 13px;
+        color: var(--muted);
+        margin: 0 0 40px;
+      }
+
+      h2 {
+        font-size: 17px;
+        font-weight: 700;
+        margin: 36px 0 10px;
+        color: var(--text);
+      }
+
+      p {
+        margin: 0 0 14px;
+        color: #374151;
+      }
+
+      ul {
+        margin: 0 0 14px;
+        padding-left: 20px;
+        color: #374151;
+      }
+
+      li {
+        margin-bottom: 6px;
+      }
+
+      .highlight {
+        background: #fff;
+        border: 1px solid var(--border);
+        border-left: 4px solid var(--amber);
+        border-radius: 8px;
+        padding: 16px 20px;
+        margin: 32px 0;
+      }
+
+      .highlight p {
+        margin: 0;
+        font-weight: 500;
+      }
+
+      a {
+        color: var(--amber);
+        text-decoration: none;
+        font-weight: 600;
+      }
+
+      a:hover {
+        text-decoration: underline;
+      }
+
+      footer {
+        border-top: 1px solid var(--border);
+        padding: 24px;
+        text-align: center;
+        font-size: 13px;
+        color: var(--muted);
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <span class="bell">🔔</span>
+      <span>Review Bell</span>
+    </header>
+
+    <main>
+      <h1>Privacy Policy</h1>
+      <p class="updated">Last updated: May 7, 2025</p>
+
+      <div class="highlight">
+        <p>Review Bell does not collect, transmit, or share any personal data. Everything stays on your device.</p>
+      </div>
+
+      <h2>What data Review Bell stores</h2>
+      <p>Review Bell stores the following data locally in your browser using <code>chrome.storage.local</code>:</p>
+      <ul>
+        <li><strong>GitHub personal access token</strong> — used to authenticate requests to the GitHub API on your behalf.</li>
+        <li><strong>Selected repository names</strong> — the repositories you choose to monitor for pull request reviews.</li>
+        <li><strong>Check state</strong> — the results of the last API check (PR list, last checked timestamp, notification history) so the popup can display them without re-fetching.</li>
+      </ul>
+      <p>This data never leaves your device and is never sent to any server operated by the extension developer.</p>
+
+      <h2>How your data is used</h2>
+      <p>Your GitHub token and selected repositories are used solely to make authenticated requests to the <a href="https://docs.github.com/en/rest" target="_blank" rel="noreferrer">GitHub REST API</a> in order to:</p>
+      <ul>
+        <li>Fetch open pull requests from your selected repositories.</li>
+        <li>Determine whether any pull requests need your attention.</li>
+        <li>Display a badge and send a browser notification when new reviews are needed.</li>
+      </ul>
+      <p>No request is made to any server other than <strong>api.github.com</strong>.</p>
+
+      <h2>Third-party services</h2>
+      <p>Review Bell communicates exclusively with the GitHub API (<code>https://api.github.com</code>). Your token and repository data are sent directly from your browser to GitHub under <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noreferrer">GitHub's Privacy Statement</a>. The extension developer has no visibility into these requests.</p>
+
+      <h2>Data retention and deletion</h2>
+      <p>All stored data is retained locally until you take one of the following actions:</p>
+      <ul>
+        <li>Clear your token and save settings in the extension options page.</li>
+        <li>Uninstall the extension — this permanently removes all locally stored data.</li>
+      </ul>
+
+      <h2>Permissions</h2>
+      <p>Review Bell requests the following browser permissions:</p>
+      <ul>
+        <li><strong>storage</strong> — to save your token and settings locally.</li>
+        <li><strong>alarms</strong> — to periodically check for new pull requests in the background.</li>
+        <li><strong>notifications</strong> — to alert you when a pull request needs your review.</li>
+        <li><strong>https://api.github.com/*</strong> — to make requests to the GitHub API.</li>
+      </ul>
+      <p>No other permissions are requested or used.</p>
+
+      <h2>Children's privacy</h2>
+      <p>Review Bell is a developer tool not directed at children under the age of 13 and does not knowingly collect data from them.</p>
+
+      <h2>Changes to this policy</h2>
+      <p>If this policy changes in a material way, the updated version will be published at this URL with a revised "Last updated" date.</p>
+
+      <h2>Contact</h2>
+      <p>For any questions about this privacy policy, contact Erick Goncalves at <a href="mailto:erick.soares.goncalves.prime@gmail.com">erick.soares.goncalves.prime@gmail.com</a>.</p>
+    </main>
+
+    <footer>
+      &copy; 2025 Erick Goncalves &mdash; Review Bell
+    </footer>
+  </body>
+</html>
