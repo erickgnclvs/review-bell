@@ -37,7 +37,7 @@ function runCheck() {
   return checkPromise;
 }
 
-async function checkNow() {
+export async function checkNow() {
   const state = await getState();
 
   if (!state.token || state.repos.length === 0) {

@@ -86,7 +86,7 @@ async function render() {
   }));
 }
 
-function formatTime(iso) {
+export function formatTime(iso) {
   const date = new Date(iso);
   const diff = Math.round((Date.now() - date) / 60000);
   if (diff < 1) return 'just now';

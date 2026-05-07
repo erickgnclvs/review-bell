@@ -8,7 +8,8 @@
     "package": "node scripts/package-extension.mjs"
   },
   "devDependencies": {
-    "vitest": "latest",
-    "archiver": "latest"
+    "archiver": "latest",
+    "jsdom": "^29.1.1",
+    "vitest": "latest"
   }
 }
