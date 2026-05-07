@@ -46,6 +46,28 @@ describe('classifyPullRequest', () => {
     expect(result).toBeNull();
   });
 
+  it('does not require review when latest own review commit matches PR head', () => {
+    const result = classifyPullRequest({
+      pr,
+      reviews: [{ user: { login: 'me' }, state: 'APPROVED', submitted_at: '2026-05-01T10:00:00Z', commit_id: 'head-1' }],
+      commits: [{ commit: { committer: { date: '2026-05-01T11:00:00Z' } } }],
+      viewerLogin: 'me'
+    });
+
+    expect(result).toBeNull();
+  });
+
+  it('requires review when latest own review commit differs from PR head even if commit dates are older', () => {
+    const result = classifyPullRequest({
+      pr,
+      reviews: [{ user: { login: 'me' }, state: 'APPROVED', submitted_at: '2026-05-01T10:00:00Z', commit_id: 'old-head' }],
+      commits: [{ commit: { committer: { date: '2026-05-01T09:00:00Z' } } }],
+      viewerLogin: 'me'
+    });
+
+    expect(result.reason).toBe('updated_after_review');
+  });
+
   it('requires review when latest commit is newer than viewer review', () => {
     const result = classifyPullRequest({
       pr,
@@ -73,7 +95,11 @@ describe('classifyPullRequest', () => {
 });
 
 describe('notificationKey', () => {
-  it('includes repo, PR number, head SHA, and reason', () => {
-    expect(notificationKey({ repo: 'owner/repo', number: 1, headSha: 'abc', reason: 'new' })).toBe('owner/repo#1@abc:new');
+  it('is stable per PR for never-reviewed pull requests', () => {
+    expect(notificationKey({ repo: 'owner/repo', number: 1, headSha: 'abc', reason: 'new' })).toBe('owner/repo#1:new');
+  });
+
+  it('includes head SHA for pull requests updated after review', () => {
+    expect(notificationKey({ repo: 'owner/repo', number: 1, headSha: 'abc', reason: 'updated_after_review' })).toBe('owner/repo#1@abc:updated_after_review');
   });
 });

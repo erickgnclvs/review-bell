@@ -16,6 +16,10 @@ export function classifyPullRequest({ pr, reviews, commits, viewerLogin }) {
     return toAttentionItem(pr, 'new');
   }
 
+  if (latestOwnReview.commit_id) {
+    return latestOwnReview.commit_id === pr.head?.sha ? null : toAttentionItem(pr, 'updated_after_review');
+  }
+
   if (latestCommitDate && new Date(latestCommitDate) > new Date(latestOwnReview.submitted_at)) {
     return toAttentionItem(pr, 'updated_after_review');
   }
@@ -24,6 +28,10 @@ export function classifyPullRequest({ pr, reviews, commits, viewerLogin }) {
 }
 
 export function notificationKey(item) {
+  if (item.reason === 'new') {
+    return `${item.repo}#${item.number}:new`;
+  }
+
   return `${item.repo}#${item.number}@${item.headSha}:${item.reason}`;
 }
 

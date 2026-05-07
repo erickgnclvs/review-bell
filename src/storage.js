@@ -13,7 +13,14 @@ export async function getState() {
 }
 
 export async function saveSettings({ token, repos }) {
-  await chrome.storage.local.set({ token, repos });
+  await chrome.storage.local.set({
+    token,
+    repos,
+    attentionItems: [],
+    notifiedKeys: [],
+    lastCheckedAt: null,
+    lastError: null
+  });
 }
 
 export async function saveCheckResult({ attentionItems, notifiedKeys, lastError }) {
