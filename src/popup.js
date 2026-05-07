@@ -5,6 +5,11 @@ const list = document.querySelector('#prs');
 const refresh = document.querySelector('#refresh');
 
 refresh.addEventListener('click', async () => {
+  const state = await getState();
+  if (!state.token || state.repos.length === 0) {
+    chrome.runtime.openOptionsPage();
+    return;
+  }
   summary.textContent = 'Checking GitHub...';
   const response = await chrome.runtime.sendMessage({ type: 'CHECK_NOW' });
   if (!response?.ok) summary.textContent = response?.error || 'Check failed.';
@@ -16,6 +21,16 @@ render();
 async function render() {
   const state = await getState();
   const items = state.attentionItems;
+  const configured = state.token && state.repos.length > 0;
+
+  if (!configured) {
+    summary.textContent = 'No repositories configured.';
+    refresh.textContent = 'Configure';
+    list.replaceChildren();
+    return;
+  }
+
+  refresh.textContent = 'Check now';
 
   if (state.lastError) {
     summary.textContent = `Last check failed: ${state.lastError}`;
