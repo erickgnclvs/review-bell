@@ -46,11 +46,12 @@ async function checkNow() {
     return;
   }
 
-  try {
-    const viewerLogin = await getViewerLogin(state.token);
-    const attentionItems = [];
+  const viewerLogin = await getViewerLogin(state.token);
+  const attentionItems = [];
+  const repoErrors = [];
 
-    for (const repo of state.repos) {
+  for (const repo of state.repos) {
+    try {
       const pulls = await listOpenPullRequests(repo, state.token);
       for (const pr of pulls) {
         if (pr.draft) continue;
@@ -61,22 +62,26 @@ async function checkNow() {
         const item = classifyPullRequest({ pr, reviews, commits, viewerLogin });
         if (item) attentionItems.push(item);
       }
+    } catch (error) {
+      console.warn(`Review Bell: failed to check ${repo}`, error);
+      repoErrors.push(repo);
     }
+  }
 
-    await updateBadge(attentionItems);
+  await updateBadge(attentionItems);
 
-    const currentKeys = attentionItems.map(notificationKey);
-    const newKeys = currentKeys.filter((key) => !state.notifiedKeys.includes(key));
+  const currentKeys = attentionItems.map(notificationKey);
+  const newKeys = currentKeys.filter((key) => !state.notifiedKeys.includes(key));
 
-    await saveCheckResult({ attentionItems, notifiedKeys: currentKeys, lastError: null });
+  const lastError = repoErrors.length > 0
+    ? `Failed to check: ${repoErrors.join(', ')}`
+    : null;
 
-    if (newKeys.length > 0) {
-      const newItems = attentionItems.filter((item) => newKeys.includes(notificationKey(item)));
-      notify(newItems).catch((error) => console.warn('Review Bell notification failed', error));
-    }
-  } catch (error) {
-    await saveCheckResult({ attentionItems: state.attentionItems, notifiedKeys: state.notifiedKeys, lastError: error.message });
-    throw error;
+  await saveCheckResult({ attentionItems, notifiedKeys: currentKeys, lastError });
+
+  if (newKeys.length > 0) {
+    const newItems = attentionItems.filter((item) => newKeys.includes(notificationKey(item)));
+    notify(newItems).catch((error) => console.warn('Review Bell notification failed', error));
   }
 }
 
