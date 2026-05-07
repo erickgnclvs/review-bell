@@ -81,7 +81,11 @@ export async function checkNow() {
 
   if (newKeys.length > 0) {
     const newItems = attentionItems.filter((item) => newKeys.includes(notificationKey(item)));
-    notify(newItems).catch((error) => console.warn('Review Bell notification failed', error));
+    try {
+      await notify(newItems);
+    } catch (error) {
+      console.warn('Review Bell notification failed', error);
+    }
   }
 }
 

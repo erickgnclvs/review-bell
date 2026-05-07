@@ -129,4 +129,47 @@ describe('checkNow', () => {
 
     expect(chromeMock.action.setBadgeText).toHaveBeenCalledWith({ text: '1' });
   });
+
+  it('sends a notification for items not in notifiedKeys', async () => {
+    const { classifyPullRequest } = await import('../src/reviewRules.js');
+    const { sendReviewNotification } = await import('../src/notifications.js');
+    getState.mockResolvedValue({
+      token: 'tok',
+      repos: ['owner/repo'],
+      attentionItems: [],
+      notifiedKeys: []
+    });
+    getViewerLogin.mockResolvedValue('me');
+    listOpenPullRequests.mockResolvedValue([{ number: 1, draft: false }]);
+    listPullRequestReviews.mockResolvedValue([]);
+    listPullRequestCommits.mockResolvedValue([]);
+    classifyPullRequest.mockReturnValue({ repo: 'owner/repo', number: 1, reason: 'new' });
+
+    await checkNow();
+
+    expect(sendReviewNotification).toHaveBeenCalledWith(
+      chromeMock,
+      expect.arrayContaining([expect.objectContaining({ number: 1 })])
+    );
+  });
+
+  it('does not notify for items already in notifiedKeys', async () => {
+    const { classifyPullRequest } = await import('../src/reviewRules.js');
+    const { sendReviewNotification } = await import('../src/notifications.js');
+    getState.mockResolvedValue({
+      token: 'tok',
+      repos: ['owner/repo'],
+      attentionItems: [],
+      notifiedKeys: ['owner/repo#1']
+    });
+    getViewerLogin.mockResolvedValue('me');
+    listOpenPullRequests.mockResolvedValue([{ number: 1, draft: false }]);
+    listPullRequestReviews.mockResolvedValue([]);
+    listPullRequestCommits.mockResolvedValue([]);
+    classifyPullRequest.mockReturnValue({ repo: 'owner/repo', number: 1, reason: 'new' });
+
+    await checkNow();
+
+    expect(sendReviewNotification).not.toHaveBeenCalled();
+  });
 });
