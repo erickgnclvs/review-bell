@@ -46,6 +46,16 @@ async function githubFetchUrl(url, token, { includeNextUrl = false } = {}) {
     }
   });
 
+  if (response.status === 429 || response.status === 403) {
+    const resetAt = response.headers.get('x-ratelimit-reset');
+    const remaining = response.headers.get('x-ratelimit-remaining');
+    if (remaining === '0' && resetAt) {
+      const resetMs = Number(resetAt) * 1000;
+      const waitSec = Math.ceil((resetMs - Date.now()) / 1000);
+      throw new Error(`GitHub rate limit exceeded. Resets in ${waitSec}s.`);
+    }
+  }
+
   if (!response.ok) {
     const message = await response.text();
     throw new Error(`GitHub API ${response.status}: ${message}`);
