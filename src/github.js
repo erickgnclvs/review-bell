@@ -4,20 +4,37 @@ export async function getViewerLogin(token) {
 }
 
 export async function listOpenPullRequests(repo, token) {
-  const pulls = await githubFetch(`/repos/${repo}/pulls?state=open&per_page=100`, token);
+  const pulls = await githubFetchAll(`/repos/${repo}/pulls?state=open&per_page=100`, token);
   return pulls.map((pull) => ({ ...pull, repo }));
 }
 
 export async function listPullRequestReviews(repo, number, token) {
-  return githubFetch(`/repos/${repo}/pulls/${number}/reviews?per_page=100`, token);
+  return githubFetchAll(`/repos/${repo}/pulls/${number}/reviews?per_page=100`, token);
 }
 
 export async function listPullRequestCommits(repo, number, token) {
-  return githubFetch(`/repos/${repo}/pulls/${number}/commits?per_page=100`, token);
+  return githubFetchAll(`/repos/${repo}/pulls/${number}/commits?per_page=100`, token);
 }
 
 async function githubFetch(path, token) {
-  const response = await fetch(`https://api.github.com${path}`, {
+  return githubFetchUrl(`https://api.github.com${path}`, token);
+}
+
+async function githubFetchAll(path, token) {
+  let url = `https://api.github.com${path}`;
+  const items = [];
+
+  while (url) {
+    const { body, nextUrl } = await githubFetchUrl(url, token, { includeNextUrl: true });
+    items.push(...body);
+    url = nextUrl;
+  }
+
+  return items;
+}
+
+async function githubFetchUrl(url, token, { includeNextUrl = false } = {}) {
+  const response = await fetch(url, {
     headers: {
       Accept: 'application/vnd.github+json',
       Authorization: `Bearer ${token}`,
@@ -30,5 +47,19 @@ async function githubFetch(path, token) {
     throw new Error(`GitHub API ${response.status}: ${message}`);
   }
 
-  return response.json();
+  const body = await response.json();
+  if (includeNextUrl) {
+    return { body, nextUrl: parseNextLink(response.headers.get('link')) };
+  }
+
+  return body;
+}
+
+function parseNextLink(linkHeader) {
+  if (!linkHeader) {
+    return null;
+  }
+
+  const nextLink = linkHeader.split(',').find((link) => link.includes('rel="next"'));
+  return nextLink?.match(/<([^>]+)>/)?.[1] ?? null;
 }
