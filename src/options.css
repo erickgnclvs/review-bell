@@ -1,0 +1,31 @@
+body {
+  color: #111827;
+  font-family: system-ui, sans-serif;
+  margin: 0;
+}
+
+main {
+  max-width: 720px;
+  padding: 24px;
+}
+
+label {
+  display: block;
+  font-weight: 600;
+  margin: 16px 0 8px;
+}
+
+input {
+  box-sizing: border-box;
+  display: block;
+  font: inherit;
+  margin-top: 6px;
+  padding: 8px;
+  width: 100%;
+}
+
+button {
+  font: inherit;
+  margin: 8px 8px 8px 0;
+  padding: 8px 12px;
+}
